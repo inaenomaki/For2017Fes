@@ -12,7 +12,7 @@ public class CorrectPosController : MonoBehaviour
 
     int pointMax = 100;
 
-    float distMax = 5;
+    float distMax = 7;
 
 
     public int point = 0;

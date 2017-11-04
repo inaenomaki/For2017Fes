@@ -5,6 +5,8 @@ using UnityEngine;
 public class ThrownObjController : MonoBehaviour
 {
 
+    public bool thrownFlag;//既に投げられた後かのフラグ
+
     bool draggedFlag;//ドラッグされているかのフラグ
 
     const int historyNum = 5;
@@ -19,6 +21,7 @@ public class ThrownObjController : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        thrownFlag = false;
         draggedFlag = false;
     }
 
@@ -119,7 +122,8 @@ public class ThrownObjController : MonoBehaviour
             //今のと一個次のとの差分を移動量として保存
             Force +=  moveHistory[i]- moveHistory[i + 1];
         }
-        
+
+        thrownFlag = true;
 
         gameObject.GetComponent<Rigidbody2D>().AddForce(Force);
     }
