@@ -1,0 +1,29 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class GameManagerController : MonoBehaviour
+{
+
+    [SerializeField]
+    GameObject[] correctParts;
+
+    // Use this for initialization
+    void Start()
+    {
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+        int cal = 0;
+        for (int i = 0; i < 6; i++)
+        {
+            cal += correctParts[i].GetComponent<CorrectPosController>().point;
+        }
+
+
+    }
+}

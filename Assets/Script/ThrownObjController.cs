@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NoseController : MonoBehaviour
+public class ThrownObjController : MonoBehaviour
 {
 
     bool draggedFlag;//ドラッグされているかのフラグ
@@ -25,18 +25,13 @@ public class NoseController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //for (int i = 0; i < historyNum; i++)
-        //{
-        //    print("i is" + moveHistory[i]);
-        //}
-
+      
 
         //マウスが上にあるときにクリックされたら
         if (checkBeMouseOver() && checkMousePressed() && draggedFlag == false)
         {
             draggedFlag = true;
 
-            print("click at " + getMouseVector3());
             //ドラッグが始まった時の座標を突っ込む
             clickedMousePoint = getMouseVector3();
             clickedThisPoint = gameObject.transform.position;
@@ -50,7 +45,6 @@ public class NoseController : MonoBehaviour
             {
                 draggedFlag = false;
                 thrownThis();
-                print("release at " + getMouseVector3());
             }
             //実際にドラッグされていたら
             else
@@ -125,8 +119,7 @@ public class NoseController : MonoBehaviour
             //今のと一個次のとの差分を移動量として保存
             Force +=  moveHistory[i]- moveHistory[i + 1];
         }
-
-        print("Force is" + Force);
+        
 
         gameObject.GetComponent<Rigidbody2D>().AddForce(Force);
     }
