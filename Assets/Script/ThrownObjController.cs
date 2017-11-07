@@ -44,7 +44,8 @@ public class ThrownObjController : MonoBehaviour
         if (draggedFlag == true)
         {
             //実際にはドラッグされていなかったら = 離された所だったら
-            if (!checkMousePressed())
+            //画面から出ていたら
+            if (!checkMousePressed() || !checkInScreen(gameObject.transform.position))
             {
                 draggedFlag = false;
                 thrownThis();
@@ -126,5 +127,20 @@ public class ThrownObjController : MonoBehaviour
         thrownFlag = true;
 
         gameObject.GetComponent<Rigidbody2D>().AddForce(Force);
+    }
+
+    bool checkInScreen(Vector3 pos)
+    {
+        Vector3 view_pos = Camera.main.WorldToViewportPoint(pos);
+        if (view_pos.x < -0.0f ||
+           view_pos.x > 1.0f ||
+           view_pos.y < -0.0f ||
+           view_pos.y > 1.0f)
+        {
+            // 範囲外 
+            return false;
+        }
+        // 範囲内 
+        return true;
     }
 }

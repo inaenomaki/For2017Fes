@@ -23,6 +23,9 @@ public class GameManagerController : MonoBehaviour
 
     private bool endGameFlag;
 
+    float timeFromEndGameToZoomIn = 2.0f;
+    float endGameTime;
+
     //Result Variable
     //
 
@@ -36,6 +39,7 @@ public class GameManagerController : MonoBehaviour
     {
         point = 0;
         endGameFlag = false;
+        endGameTime = 0;
     }
 
     // Use this for initialization
@@ -43,6 +47,7 @@ public class GameManagerController : MonoBehaviour
     {
         init();
         DontDestroyOnLoad(gameObject);
+
     }
 
     // Update is called once per frame
@@ -56,12 +61,12 @@ public class GameManagerController : MonoBehaviour
         if (SceneManager.GetActiveScene().name == "Game")
         {
             //もうゲームが終わっていたら
-            if (checkGameEnd() == true)
+            if (checkGameEnd() == true && endGameFlag == false)
             {
                 endGameFlag = true;
-
+                endGameTime = 0;
                 //リザルト中は見えないようにする
-                GameObject pointText = GameObject.Find("Result").transform.FindChild("Point").gameObject ;
+                GameObject pointText = GameObject.Find("Result").transform.FindChild("Point").gameObject;
                 pointText.SetActive(false);
             }
 
@@ -75,6 +80,18 @@ public class GameManagerController : MonoBehaviour
             {
                 updateResult();
             }
+            //Rが押されていたら
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                SceneManager.LoadScene("Game");
+                this.init();
+            }
+            //Tが押されていたら
+            if (Input.GetKeyDown(KeyCode.T))
+            {
+                SceneManager.LoadScene("Title");
+            }
+
         }
 
 
@@ -114,10 +131,13 @@ public class GameManagerController : MonoBehaviour
         Text resultText = GameObject.Find("Result").transform.FindChild("Text").GetComponent<Text>();
         GameObject toTitleButton = GameObject.Find("Result").transform.FindChild("ToTitleButton").gameObject;
 
+        endGameTime += Time.deltaTime;
 
-        //右上を拡大
-        targetCameraController.zoomIn();
-
+        if (endGameTime > timeFromEndGameToZoomIn)
+        {
+            //右上を拡大
+            targetCameraController.zoomIn();
+        }
         //拡大が終わり切ったら
         if (targetCameraController.getSize() >= 1)
         {
@@ -137,7 +157,7 @@ public class GameManagerController : MonoBehaviour
         thrownParts[3] = GameObject.Find("eye_R");
         thrownParts[4] = GameObject.Find("nose");
         thrownParts[5] = GameObject.Find("mouse");
-        
+
 
         float endGameVelocity = 0.7f;//この速度以下になったら終了する
 

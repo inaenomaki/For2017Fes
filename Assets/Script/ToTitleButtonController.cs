@@ -22,7 +22,7 @@ public class ToTitleButtonController : MonoBehaviour
     public void clickedButton()
     {
 
-        Destroy(GameObject.Find("gameManager"));
+     //   Destroy(GameObject.Find("gameManager"));
         SceneManager.LoadScene("Title");
     }
 }
